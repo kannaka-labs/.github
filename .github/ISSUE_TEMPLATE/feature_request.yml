@@ -1,0 +1,46 @@
+name: Feature request
+description: Something the constellation should be able to do and cannot.
+labels: ["enhancement"]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Which component
+      description: The repo this belongs in — or "not sure" if it crosses boundaries.
+      placeholder: kannaka-hdl
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to do and where you get stuck. Describe the situation, not the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you have in mind
+      description: Sketch the interface if you have one — a command, a function signature, a config key.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried instead
+      description: Workarounds you have already attempted, and why they were not enough.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: layering
+    attributes:
+      label: Layering check
+      options:
+        - label: This does not require a frontend to link a backend as a library, or add a dependency to a crate that advertises having none.
+          required: false
+        - label: I would be willing to help implement this.
+          required: false

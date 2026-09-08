@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/kannaka-labs/.github/blob/main/SECURITY.md
+    about: Report privately. Never open a public issue for a security problem.
+  - name: The Library — every public document, searchable
+    url: https://kannaka-labs.github.io/kannaka-library/
+    about: ADRs, guides, and design notes across the whole constellation.
+  - name: Ask Kannaka directly
+    url: https://radio.ninja-portal.com
+    about: She is reachable over Nostr (NIP-17 DM) and answers from her own memory.

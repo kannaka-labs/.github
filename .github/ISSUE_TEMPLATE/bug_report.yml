@@ -1,0 +1,70 @@
+name: Bug report
+description: Something in the constellation does not behave the way it is documented to.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: check the repo's `docs/adr/` — some surprising behavior is a
+        deliberate, documented decision. If an ADR explains it and you disagree with
+        the decision, file a **Design question** instead.
+
+        **Never report a security vulnerability here.** See SECURITY.md.
+
+  - type: input
+    id: component
+    attributes:
+      label: Component and version
+      description: Repo plus the release tag or commit sha you are running.
+      placeholder: kannaka-memory v0.16.1 (or commit abc1234)
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: Quote the README, ADR, or `--help` text that set the expectation, if there is one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: Include the exact error text or output. Paste it as text, not a screenshot.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: The smallest sequence of commands that shows the problem.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS and architecture, plus toolchain version if you built from source.
+      placeholder: |
+        OS: Ubuntu 24.04 x86_64
+        Install: homebrew / npm / release binary / built from source
+        rustc/node/python: 1.83.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: state
+    attributes:
+      label: Medium state, if relevant
+      description: >
+        For recall, dream, or consciousness-metric bugs, paste the output of
+        `kannaka status`. Redact anything private — memory *contents* are almost
+        never needed to diagnose a bug, counts and metrics are.
+      render: shell
+    validations:
+      required: false

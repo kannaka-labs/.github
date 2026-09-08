@@ -1,0 +1,43 @@
+name: Design question or ADR challenge
+description: You think a documented decision is wrong, or you need to understand why something is the way it is.
+labels: ["design"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Architecture Decision Records are never edited to rewrite history. If we agree
+        with you, the outcome is a **new ADR that supersedes the old one** — so the
+        most useful thing you can do here is make the case cleanly.
+
+  - type: input
+    id: adr
+    attributes:
+      label: Which ADR or design
+      description: Repo plus ADR number, or the behavior if no ADR covers it.
+      placeholder: kannaka-memory ADR-0043 (Nostr interop membrane)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reading
+    attributes:
+      label: Your reading of the current decision
+      description: State it in your own words, so we can check we are discussing the same thing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What it costs
+      description: The concrete case where this decision produces a bad outcome. Real beats hypothetical.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative
+    attributes:
+      label: What you would do instead
+      description: Include the trade-off you are accepting. Every alternative costs something; name it.
+    validations:
+      required: false
