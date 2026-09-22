@@ -1,0 +1,72 @@
+name: Namespace Guard
+
+# Fails when documentation links back at the pre-migration personal
+# namespaces. Reusable across the org:
+#
+#   jobs:
+#     namespace:
+#       uses: kannaka-labs/.github/.github/workflows/namespace-guard.yml@main
+#
+# See kannaka-labs/.github#2 for why this exists. Short version: GitHub
+# redirects repository paths, so an old-namespace link keeps working and
+# nothing looks broken — right up until it doesn't. QuantumOS shipped a
+# headline browser-demo link to flaukowski.github.io/QuantumOS for months;
+# that is a Pages subdomain, which GitHub does NOT redirect, and it was
+# returning 404 to every reader while every other stale link still worked.
+
+on:
+  workflow_call:
+    inputs:
+      paths:
+        description: Glob of files to check.
+        required: false
+        default: "*.md"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  namespace-guard:
+    name: No links to the old namespace
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan documentation for pre-migration links
+        env:
+          GLOB: ${{ inputs.paths }}
+        run: |
+          set -uo pipefail
+
+          # Three GitHub-specific forms, and ONLY these three.
+          #
+          # Deliberately NOT matched, because they are real accounts and
+          # not stale links — rewriting them breaks live profiles:
+          #   flaukowski.bsky.social · mastodon.social/@flaukowski
+          #   flaukowski.bandcamp.com · pitchforks.social/flaukowski
+          #
+          # Also not matched: externally registered badges such as
+          # glama.ai/mcp/servers/<user>/. Those need re-registering at
+          # the source; editing the URL would point at a listing that
+          # may not exist there.
+          PATTERN='github\.com/(NickFlach|flaukowski)/|(NickFlach|flaukowski)\.github\.io/|shields\.io/[A-Za-z0-9/._-]*(NickFlach|flaukowski)/'
+
+          hits=$(grep -rInE "$PATTERN" --include="$GLOB" . || true)
+
+          if [ -z "$hits" ]; then
+            echo "No pre-migration links found."
+            exit 0
+          fi
+
+          echo "::error::Documentation still links at a pre-migration namespace."
+          echo ""
+          echo "$hits" | while IFS= read -r line; do
+            echo "  $line"
+            echo "::error file=${line%%:*}::links at NickFlach/ or flaukowski/ — use kannaka-labs/"
+          done
+          echo ""
+          echo "Rewrite to github.com/kannaka-labs/ (and kannaka-labs.github.io/)."
+          echo "Confirm the target exists in the org first, so nothing is"
+          echo "pointed at a 404. See kannaka-labs/.github#2."
+          exit 1
